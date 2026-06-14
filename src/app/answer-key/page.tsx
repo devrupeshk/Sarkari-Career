@@ -1,7 +1,7 @@
 import { GenericSectionPage } from "@/views/GenericSectionPage";
 import { fetchListings } from "@/lib/api";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function AnswerKeyPage() {
   let jobs: any[] = [];
