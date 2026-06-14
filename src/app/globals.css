@@ -862,3 +862,16 @@
     letter-spacing: -0.75px !important;
   }
 }
+
+/* Make rich-text tables more compact and readable on small screens */
+@media (max-width: 639px) {
+  .article-content table {
+    font-size: 12px !important;
+  }
+  .article-content td,
+  .article-content th,
+  .article-content thead th,
+  .article-content tr th {
+    padding: 0.5rem 0.6rem !important;
+  }
+}
