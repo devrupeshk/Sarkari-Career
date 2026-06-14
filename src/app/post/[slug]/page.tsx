@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { fetchJobBySlug } from "@/lib/api";
 
-export const revalidate = 60;
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  return [];
+}
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;

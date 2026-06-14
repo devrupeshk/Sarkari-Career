@@ -1,7 +1,7 @@
 import { AdmitCardPage } from "@/views/AdmitCardPage";
 import { fetchListings } from "@/lib/api";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function AdmitCardPageRoute() {
   let jobs: any[] = [];

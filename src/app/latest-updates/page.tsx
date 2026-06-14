@@ -1,7 +1,7 @@
 import { GenericSectionPage } from "@/views/GenericSectionPage";
 import { fetchListings } from "@/lib/api";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function LatestUpdatesPage() {
   let jobs: any[] = [];

@@ -1,7 +1,7 @@
 import { fetchListings, fetchBlogs } from "@/lib/api";
 import { HomePage } from "@/views/HomePage";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function Page() {
   let jobs: any[] = [];

@@ -2,6 +2,8 @@ import { fetchDesignations } from "@/lib/api";
 import { DesignationsPage } from "@/views/DesignationsPage";
 import type { Metadata } from "next";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Govt Jobs by Designation: Clerk, Officer, Assistant Vacancies",
   description:

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useLayoutEffect, useCallback, useMemo } from "react";
-import { fetchEducations, type ApiEducationItem } from "@/lib/api";
+import { type ApiEducationItem } from "@/lib/api";
+import { useGlobalData } from "@/components/GlobalDataProvider";
 import {
   Search,
   Menu,
@@ -98,19 +99,7 @@ export function Navigation() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [leavingHome, setLeavingHome] = useState(false);
   const pathname = usePathname();
-  const [educations, setEducations] = useState<ApiEducationItem[]>([]);
-
-  useEffect(() => {
-    const getEducations = async () => {
-      try {
-        const data = await fetchEducations();
-        setEducations(data);
-      } catch (err) {
-        console.error("Failed to fetch educations for navigation:", err);
-      }
-    };
-    getEducations();
-  }, []);
+  const { educations } = useGlobalData();
 
   const dynamicNavLinks = useMemo(() => {
     return navLinks.map((link) => {

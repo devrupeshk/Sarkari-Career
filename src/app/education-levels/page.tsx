@@ -2,6 +2,8 @@ import { fetchEducations } from "@/lib/api";
 import { EducationLevelsPage } from "@/views/EducationLevelsPage";
 import type { Metadata } from "next";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Jobs by Education Level : Government Jobs for All Qualifications",
   description:

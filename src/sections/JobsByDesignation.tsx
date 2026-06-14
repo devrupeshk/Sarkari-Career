@@ -1,37 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchDesignations, type ApiDesignationItem } from "@/lib/api";
+import { useGlobalData } from "@/components/GlobalDataProvider";
 import Link from "next/link";
-import { ChevronRight, Loader2 } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export function JobsByDesignation() {
-  const [designationsList, setDesignationsList] = useState<ApiDesignationItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { designations } = useGlobalData();
 
-  useEffect(() => {
-    const loadDesignations = async () => {
-      try {
-        const data = await fetchDesignations();
-        setDesignationsList(data);
-      } catch (err) {
-        console.error("Failed to load designations for sidebar:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadDesignations();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="bg-white/70 backdrop-blur-xl border border-white/60 shadow-card rounded-2xl p-4 flex items-center justify-center min-h-[120px]">
-        <Loader2 className="w-5 h-5 text-brand animate-spin" />
-      </div>
-    );
-  }
-
-  if (designationsList.length === 0) {
+  if (designations.length === 0) {
     return null;
   }
 
@@ -56,7 +32,7 @@ export function JobsByDesignation() {
 
       {/* Vertical list of designation levels */}
       <ul className="space-y-0.5 relative z-10">
-        {designationsList.slice(0, 10).map((desg) => {
+        {designations.slice(0, 10).map((desg) => {
           const slug = desg.slug.endsWith("-jobs") ? desg.slug : `${desg.slug}-jobs`;
 
           return (

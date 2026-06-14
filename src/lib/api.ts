@@ -108,7 +108,7 @@ export async function fetchListings(
 
   const url = `${DASHBOARD_URL}/api/public/listings?${params.toString()}`;
 
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
 
   if (!res.ok) {
     const text = await res.text();
@@ -124,7 +124,7 @@ export async function fetchListings(
 export async function fetchJobBySlug(slug: string): Promise<ApiJobDetail | null> {
   const url = `${DASHBOARD_URL}/api/public/posts/${encodeURIComponent(slug)}`;
 
-  const res = await fetch(url, { next: { revalidate: 120 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
 
   if (res.status === 404) return null;
 
@@ -146,7 +146,7 @@ export interface ApiEducationItem {
 export async function fetchEducations(): Promise<ApiEducationItem[]> {
   const url = `${DASHBOARD_URL}/api/public/educations`;
 
-  const res = await fetch(url, { next: { revalidate: 120 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
 
   if (!res.ok) {
     const text = await res.text();
@@ -166,7 +166,7 @@ export interface ApiDesignationItem {
 export async function fetchDesignations(): Promise<ApiDesignationItem[]> {
   const url = `${DASHBOARD_URL}/api/public/designations`;
 
-  const res = await fetch(url, { next: { revalidate: 120 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
 
   if (!res.ok) {
     const text = await res.text();
@@ -190,12 +190,23 @@ export interface ApiBlogItem {
 
 export async function fetchBlogs(): Promise<ApiBlogItem[]> {
   const url = `${DASHBOARD_URL}/api/blogs`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`Failed to fetch blogs: ${res.status} – ${text}`);
   }
   return res.json() as Promise<ApiBlogItem[]>;
+}
+
+export async function fetchBlogBySlug(slug: string): Promise<ApiBlogItem | null> {
+  const url = `${DASHBOARD_URL}/api/blogs?slug=${encodeURIComponent(slug)}`;
+  const res = await fetch(url, { next: { revalidate: 3600 } });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch blog post: ${res.status} – ${text}`);
+  }
+  return res.json() as Promise<ApiBlogItem>;
 }
 
 export interface ApiSettings {
@@ -211,7 +222,7 @@ export interface ApiSettings {
 
 export async function fetchSettings(): Promise<ApiSettings> {
   const url = `${DASHBOARD_URL}/api/public/settings`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`Failed to fetch settings: ${res.status} – ${text}`);

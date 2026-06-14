@@ -10,6 +10,8 @@ import { designations } from "@/data/designations";
 import { Metadata } from "next";
 import { fetchListings, fetchEducations, fetchDesignations } from "@/lib/api";
 
+export const revalidate = 3600;
+
 function getStateSlug(name: string) {
   return name
     .toLowerCase()
