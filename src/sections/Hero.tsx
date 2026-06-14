@@ -1,4 +1,5 @@
 import { Search, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export function Hero() {
   const quickTags = [
@@ -6,23 +7,23 @@ export function Hero() {
     { label: "UPSC Civil Services", href: "/upsc" },
     { label: "RRB NTPC", href: "/railway" },
     { label: "IBPS PO", href: "/bank" },
-    { label: "UP Police Const.", href: "/police-defence" },
+    { label: " Police", href: "/police-defence" },
   ];
 
   return (
     <section className="relative bg-gradient-to-b from-[#060D1A] via-[#09152B] to-[#040810] pt-16 sm:pt-18 pb-8 sm:pb-10 overflow-hidden">
       {/* Mesh glowing blobs */}
       <div className="absolute top-[-20%] left-[-10%] w-[45%] h-[60%] rounded-full bg-brand/10 blur-[130px] animate-float pointer-events-none" />
-      <div 
-        className="absolute bottom-[-15%] right-[-10%] w-[40%] h-[55%] rounded-full bg-brand/5 blur-[125px] pointer-events-none animate-float" 
-        style={{ animationDelay: "3s" }} 
+      <div
+        className="absolute bottom-[-15%] right-[-10%] w-[40%] h-[55%] rounded-full bg-brand/5 blur-[125px] pointer-events-none animate-float"
+        style={{ animationDelay: "3s" }}
       />
 
       {/* Grid Pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff01_1px,transparent_1px),linear-gradient(to_bottom,#ffffff01_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-1 relative z-10">
-        
+
         {/* Header Badge */}
         <div className="flex justify-center mb-2">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
@@ -44,7 +45,7 @@ export function Hero() {
         </div>
 
         {/* Search Bar */}
-        <div 
+        <div
           onClick={() => {
             if (typeof window !== "undefined") {
               window.dispatchEvent(new Event("open-search"));
@@ -77,13 +78,13 @@ export function Hero() {
             Trending:
           </span>
           {quickTags.map((tag) => (
-            <a
+            <Link
               key={tag.label}
               href={tag.href}
               className="px-3 py-1 bg-white/5 hover:bg-brand/10 border border-white/5 hover:border-brand/20 text-white/80 hover:text-white text-[9px] sm:text-[10px] font-semibold rounded-full transition-all duration-300"
             >
               {tag.label}
-            </a>
+            </Link>
           ))}
         </div>
 
