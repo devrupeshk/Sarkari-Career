@@ -1,0 +1,864 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@theme {
+  --color-navy: #0B1324;
+  --color-navy-light: #0D1B2E;
+  --color-navy-card: #12253F;
+  --color-slate-custom: #64748B;
+  --color-brand: #DC2626;
+  --color-brand-hover: #B91C1C;
+  --color-brand-light: #FEF2F2;
+  --color-off-white: #F8FAFC;
+  --color-light-gray: #F1F5F9;
+  --color-dark-text: #0F172A;
+  --color-body-text: #475569;
+  --color-border-custom: #F1F5F9;
+  --color-status-green: #10B981;
+  --color-status-red: #EF4444;
+  --color-status-blue: #3B82F6;
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm-custom: 8px;
+  --radius-md-custom: 14px;
+  --radius-lg-custom: 20px;
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xs: calc(var(--radius) - 6px);
+
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.02), 0 8px 30px -4px rgba(15, 23, 42, 0.03);
+  --shadow-card-hover: 0 12px 30px -4px rgba(220, 38, 38, 0.06), 0 20px 40px -4px rgba(15, 23, 42, 0.06);
+  --shadow-dropdown: 0 10px 40px -6px rgba(15, 23, 42, 0.08), 0 20px 50px -10px rgba(15, 23, 42, 0.04);
+  --shadow-navbar: 0 4px 30px -10px rgba(15, 23, 42, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-15px) rotate(2deg);
+    }
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+    }
+
+    50% {
+      box-shadow: 0 0 20px 6px rgba(220, 38, 38, 0.2);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 217 30% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 217 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 30% 12%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 214.3 31.8% 91.4%;
+    --secondary-foreground: 217 30% 12%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 217 30% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 1rem;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif !important;
+    color: hsl(var(--foreground));
+    background-color: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@utility glass-effect {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+@utility glass-effect-dark {
+  background-color: rgba(13, 27, 46, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PREMIUM SCROLLBAR — Global (Webkit + Firefox)
+   Design: thin 6px track · brand-red-to-navy gradient thumb
+   · smooth fade-in · glow on hover
+═══════════════════════════════════════════════════════════════════ */
+
+
+
+/* ── VERTICAL scrollbar (page-level & all elements) ── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: rgba(220, 38, 38, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+      #DC2626 0%,
+      #1E40AF 60%,
+      #0B1324 100%);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 0 rgba(220, 38, 38, 0),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  min-height: 200px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+      #EF4444 0%,
+      #2563EB 55%,
+      #0D1B2E 100%);
+  box-shadow:
+    0 0 10px 2px rgba(220, 38, 38, 0.35),
+    0 0 20px 4px rgba(30, 64, 175, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg,
+      #B91C1C 0%,
+      #1D4ED8 55%,
+      #0B1324 100%);
+  box-shadow:
+    0 0 6px 1px rgba(220, 38, 38, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Custom class to hide native scrollbar when custom scrollbar is active */
+.custom-scroll-active,
+.custom-scroll-active body {
+  scrollbar-width: none !important; /* Firefox */
+}
+.custom-scroll-active::-webkit-scrollbar,
+.custom-scroll-active body::-webkit-scrollbar {
+  display: none !important; /* WebKit */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Custom scrollbar track & thumb for mobile and Firefox */
+.custom-scrollbar-track {
+  position: fixed;
+  right: 4px;
+  top: 4px;
+  bottom: 4px;
+  width: 10px;
+  z-index: 9999;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.dark .custom-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar-thumb {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 0 rgba(220, 38, 38, 0),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg,
+      #DC2626 0%,
+      #1E40AF 60%,
+      #0B1324 100%);
+  cursor: grab;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-scrollbar-thumb:hover,
+.custom-scrollbar-thumb:active {
+  background: linear-gradient(180deg,
+      #EF4444 0%,
+      #2563EB 55%,
+      #0D1B2E 100%);
+  box-shadow:
+    0 0 10px 2px rgba(220, 38, 38, 0.35),
+    0 0 20px 4px rgba(30, 64, 175, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.custom-scrollbar-thumb:active {
+  cursor: grabbing;
+}
+
+/* Firefox & Modern Standards (only applied if the browser does not support custom webkit scrollbars) */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: #DC2626 transparent;
+  }
+
+  html,
+  body {
+    scrollbar-width: auto;
+  }
+
+  :not(html):not(body) {
+    scrollbar-width: thin;
+  }
+}
+
+/* ── HORIZONTAL scrollbar thumb — wider gradient left-to-right ── */
+::-webkit-scrollbar-thumb:horizontal {
+  background: linear-gradient(90deg,
+      #DC2626 0%,
+      #1E40AF 60%,
+      #0B1324 100%);
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: linear-gradient(90deg,
+      #EF4444 0%,
+      #2563EB 55%,
+      #0D1B2E 100%);
+  box-shadow:
+    0 0 10px 2px rgba(220, 38, 38, 0.35),
+    0 0 20px 4px rgba(30, 64, 175, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SCROLLBAR VARIANT UTILITIES
+   Use these classes on containers for context-specific scrollbars
+───────────────────────────────────────────────────────────────── */
+
+/* Hide scrollbar but keep scroll */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+/* Ultra-thin 3px variant */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+/* Slightly wider 8px premium variant */
+.scrollbar-wide::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* ── Branded accent: pure brand-red ── */
+.scrollbar-brand::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #EF4444 0%, #DC2626 50%, #991B1B 100%);
+  box-shadow: 0 0 8px 2px rgba(220, 38, 38, 0.25);
+}
+
+.scrollbar-brand::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 14px 4px rgba(220, 38, 38, 0.45);
+}
+
+/* ── Navy midnight variant ── */
+.scrollbar-navy::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1E40AF 0%, #0B1324 100%);
+  box-shadow: 0 0 8px 2px rgba(30, 64, 175, 0.2);
+}
+
+.scrollbar-navy::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 14px 4px rgba(30, 64, 175, 0.4);
+}
+
+/* ── Frosted glass light track (for white card containers) ── */
+.scrollbar-glass::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.6);
+  border-radius: 999px;
+}
+
+.scrollbar-glass::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #DC2626 0%, #1E40AF 100%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TABLE RESPONSIVE WRAPPER — premium horizontal scrollbar
+═══════════════════════════════════════════════════════════════════ */
+.table-responsive {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  margin: 1.5rem 0 !important;
+  border-radius: 12px !important;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: #DC2626 rgba(220, 38, 38, 0.06);
+  }
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 10px !important;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 999px !important;
+  margin: 0 12px !important;
+}
+
+.table-responsive::-webkit-scrollbar-track:hover {
+  background: rgba(220, 38, 38, 0.04) !important;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg,
+      #DC2626 0%,
+      #1E40AF 60%,
+      #0B1324 100%) !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 0 0 0 rgba(220, 38, 38, 0),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  min-width: 100px !important;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg,
+      #EF4444 0%,
+      #2563EB 55%,
+      #0D1B2E 100%) !important;
+  box-shadow:
+    0 0 10px 2px rgba(220, 38, 38, 0.35),
+    0 0 20px 4px rgba(30, 64, 175, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(90deg,
+      #B91C1C 0%,
+      #1D4ED8 55%,
+      #0B1324 100%) !important;
+  box-shadow:
+    0 0 6px 1px rgba(220, 38, 38, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ARTICLE CONTENT — BASE
+   Roboto font. Paragraph: 16px / 26px / 400 / #1F2937
+═══════════════════════════════════════════════════════════════════ */
+.article-content {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  color: #1F2937 !important;
+}
+
+/* ── All heading defaults ── */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  letter-spacing: normal !important;
+  color: #030712 !important;
+}
+
+/* ──────────────────────────────
+   H1 — 38px / 45.6px / 400 / #030712
+────────────────────────────── */
+.article-content h1 {
+  font-size: 26px !important;
+  line-height: 34px !important;
+  font-weight: 700 !important;
+  color: #030712 !important;
+  margin-top: 0 !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* ──────────────────────────────
+   H2 — Sapphire blue left-bar accent + soft background wash
+────────────────────────────── */
+.article-content h2 {
+  font-size: 1.5rem !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+  color: #030712 !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.9rem !important;
+  padding: 0.6rem 0.9rem !important;
+  background: linear-gradient(90deg, rgba(30, 64, 175, 0.07) 0%, rgba(30, 64, 175, 0.01) 60%, transparent 100%) !important;
+  border-left: 4px solid #1E40AF !important;
+  border-radius: 0 6px 6px 0 !important;
+  display: block !important;
+}
+
+.article-content h2::before {
+  display: none !important;
+}
+
+/* ──────────────────────────────
+   H3 — Diamond left-bullet accent
+────────────────────────────── */
+.article-content h3 {
+  font-size: 1.2rem !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.55rem !important;
+  padding-left: 1.1rem !important;
+  display: block !important;
+  position: relative !important;
+}
+
+.article-content h3::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) rotate(45deg) !important;
+  width: 7px !important;
+  height: 7px !important;
+  background: #DC2626 !important;
+  border-radius: 2px !important;
+  display: block !important;
+}
+
+/* ── H4 ── */
+.article-content h4 {
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  color: #1F2937 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ──────────────────────────────
+   PARAGRAPHS — 16px / 26px / 400 / #1F2937
+────────────────────────────── */
+.article-content p {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 17px !important;
+  line-height: 28px !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+  letter-spacing: normal !important;
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* ── Bold / Strong ── */
+.article-content strong,
+.article-content b {
+  color: #030712 !important;
+  font-weight: 700 !important;
+}
+
+/* ── Italic ── */
+.article-content em,
+.article-content i {
+  color: #374151 !important;
+  font-style: italic !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LISTS
+═══════════════════════════════════════════════════════════════════ */
+.article-content ul,
+.article-content ol {
+  margin-top: 0.25rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 0 !important;
+}
+
+/* — Unordered list — red circle bullets */
+.article-content ul {
+  list-style-type: none !important;
+}
+
+.article-content ul li {
+  position: relative !important;
+  padding: 0.25rem 0 0.25rem 1.65rem !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+}
+
+.article-content ul li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0.3rem !important;
+  top: 0.68em !important;
+  width: 6px !important;
+  height: 6px !important;
+  background: #DC2626 !important;
+  border-radius: 50% !important;
+}
+
+/* — Ordered list — numbered red circles */
+.article-content ol {
+  list-style-type: none !important;
+  counter-reset: ol-counter !important;
+}
+
+.article-content ol li {
+  position: relative !important;
+  padding: 0.25rem 0 0.25rem 2rem !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+  counter-increment: ol-counter !important;
+}
+
+.article-content ol li::before {
+  content: counter(ol-counter) !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0.35rem !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: #DC2626 !important;
+  color: #fff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TABLES — Clean horizontal-only borders, premium navy gradient header
+═══════════════════════════════════════════════════════════════════ */
+.article-content table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 0 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  background-color: #FFFFFF !important;
+  table-layout: auto !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.07) !important;
+}
+
+
+
+/* — Table header — dark navy to sapphire blue gradient, uppercase labels */
+/* — Table header — dark navy to sapphire blue gradient, uppercase labels */
+.article-content thead th,
+.article-content tr:first-child th {
+  background: linear-gradient(135deg, #0B1324 0%, #1E3A5F 60%, #1a2f52 100%) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  font-size: 14px !important;
+  letter-spacing: 0.08em !important;
+  padding: 0.95rem 1.25rem !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  border: none !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 2px solid #1E3A5F !important;
+}
+
+.article-content thead th:last-child,
+.article-content tr:first-child th:last-child {
+  border-right: none !important;
+}
+
+.article-content thead th *,
+.article-content tr:first-child th * {
+  color: #FFFFFF !important;
+}
+
+/* — Table cells — */
+.article-content td,
+.article-content tbody tr:not(:first-child) th,
+.article-content tr:not(:first-child) th {
+  padding: 0.9rem 1.25rem !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border: none !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  border-right: 1px solid #E2E8F0 !important;
+}
+
+.article-content td:last-child,
+.article-content tbody tr:not(:first-child) th:last-child,
+.article-content tr:not(:first-child) th:last-child {
+  border-right: none !important;
+}
+
+/* Ensure children don't inherit stray borders */
+.article-content th *,
+.article-content td * {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Remove border from last row */
+.article-content tr:last-child td,
+.article-content tr:last-child th {
+  border-bottom: none !important;
+}
+
+/* Key Column (Particulars) - soft gray-blue backdrop + bold text */
+.article-content td:first-child,
+.article-content tbody tr:not(:first-child) th:first-child,
+.article-content tr:not(:first-child) th:first-child {
+  font-weight: 600 !important;
+  color: #0F172A !important;
+  background-color: #F8FAFC !important;
+}
+
+/* Alternating row background for values (second column onwards) */
+.article-content tbody tr:nth-child(even) td:not(:first-child),
+.article-content tbody tr:nth-child(even) th:not(:first-child),
+.article-content tr:not(:first-child):nth-child(even) td:not(:first-child),
+.article-content tr:not(:first-child):nth-child(even) th:not(:first-child) {
+  background-color: #FAFAFA !important;
+}
+
+/* Row hover */
+.article-content tbody tr:not(:first-child):hover td,
+.article-content tbody tr:not(:first-child):hover th,
+.article-content tr:not(:first-child):hover td,
+.article-content tr:not(:first-child):hover th {
+  background-color: #EFF6FF !important;
+  transition: background-color 0.12s ease !important;
+}
+
+.article-content tbody tr:not(:first-child):hover td:first-child,
+.article-content tbody tr:not(:first-child):hover th:first-child,
+.article-content tr:not(:first-child):hover td:first-child,
+.article-content tr:not(:first-child):hover th:first-child {
+  background-color: #EFF6FF !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LINKS
+═══════════════════════════════════════════════════════════════════ */
+
+/* In paragraphs / list items */
+.article-content p a,
+.article-content li a {
+  color: #2563EB !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(37, 99, 235, 0.35) !important;
+  text-underline-offset: 3px !important;
+  font-weight: 500 !important;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease !important;
+}
+
+.article-content p a:hover,
+.article-content li a:hover {
+  color: #1D4ED8 !important;
+  text-decoration-color: #1D4ED8 !important;
+}
+
+/* In table cells — pill badge */
+.article-content td a {
+  color: #DC2626 !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  padding: 0.2rem 0.55rem !important;
+  background-color: rgba(220, 38, 38, 0.05) !important;
+  border-radius: 5px !important;
+  border: 1px solid rgba(220, 38, 38, 0.18) !important;
+  transition: all 0.2s ease !important;
+  display: inline-block !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+.article-content td a:hover {
+  color: #B91C1C !important;
+  background-color: rgba(220, 38, 38, 0.1) !important;
+  border-color: rgba(220, 38, 38, 0.32) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.12) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BLOCKQUOTES — warm amber callout
+═══════════════════════════════════════════════════════════════════ */
+.article-content blockquote {
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.25rem !important;
+  background: #FFFBEB !important;
+  border-left: 4px solid #F59E0B !important;
+  border-radius: 0 8px 8px 0 !important;
+  color: #78350F !important;
+  font-size: 15px !important;
+  font-style: normal !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HORIZONTAL RULES
+═══════════════════════════════════════════════════════════════════ */
+.article-content hr {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, #E2E8F0 20%, #E2E8F0 80%, transparent) !important;
+  margin: 2rem 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DEFINITION LISTS (dl/dt/dd) — hidden when used as FAQ source
+   The FAQ block is extracted and rendered as a premium accordion.
+   Any remaining dl elements are hidden to avoid duplication.
+═══════════════════════════════════════════════════════════════════ */
+.article-content dl {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   POST & BLOG DETAIL MAIN HERO TITLE
+   Inter, Bold (700), Size 30px, Line-height 37.5px, Letter-spacing -0.75px
+═══════════════════════════════════════════════════════════════════ */
+.post-detail-title {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+}
+
+@media (min-width: 1024px) {
+  .post-detail-title {
+    font-size: 30px !important;
+    line-height: 37.5px !important;
+    letter-spacing: -0.75px !important;
+  }
+}
