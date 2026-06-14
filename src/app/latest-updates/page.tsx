@@ -1,11 +1,10 @@
 import { GenericSectionPage } from "@/views/GenericSectionPage";
-import { latestUpdates as fallbackLatestUpdates } from "@/data/jobs";
 import { fetchListings } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
 export default async function LatestUpdatesPage() {
-  let jobs = fallbackLatestUpdates;
+  let jobs: any[] = [];
   try {
     const data = await fetchListings({ limit: 100 });
     if (data && data.jobs && data.jobs.length > 0) {

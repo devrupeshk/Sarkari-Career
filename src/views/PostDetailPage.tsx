@@ -265,7 +265,7 @@ export function PostDetailPage({ slug, job }: PostDetailPageProps) {
 
       {/* ── MAIN CONTENT GRID ── */}
       <section className="py-8 md:py-10">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-6 md:px-8">
           <div className="flex flex-col xl:flex-row gap-8">
 
             {/* ══ LEFT / MAIN CONTENT ══ */}

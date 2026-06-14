@@ -55,7 +55,7 @@ const sidebarCategories = [
 export default function LatestBlogPage() {
   const router = useRouter();
   const settings = useSettings();
-  const [blogs, setBlogs] = useState<BlogItem[]>(fallbackBlogs);
+  const [blogs, setBlogs] = useState<BlogItem[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 

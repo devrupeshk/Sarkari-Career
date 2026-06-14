@@ -1,11 +1,10 @@
 import { AdmitCardPage } from "@/views/AdmitCardPage";
-import { admitCards as fallbackAdmitCards } from "@/data/jobs";
 import { fetchListings } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdmitCardPageRoute() {
-  let jobs = fallbackAdmitCards;
+  let jobs: any[] = [];
   try {
     const data = await fetchListings({ category: "admit-card", limit: 100 });
     if (data && data.jobs && data.jobs.length > 0) {

@@ -53,36 +53,37 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = use(params);
   const router = useRouter();
   const [blog, setBlog] = useState<BlogItem | null>(null);
+  const [blogs, setBlogs] = useState<BlogItem[]>([]);
   const telegramLink = cleanSocialLink(blog?.telegramLink, settings.telegramLink);
   const whatsappLink = cleanSocialLink(blog?.whatsappLink, settings.whatsappLink);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function loadBlog() {
+    async function loadBlogAndBlogs() {
       try {
-        // Try fetching blog details dynamically from API
         const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_URL || "http://localhost:3001";
+        // Fetch current blog details dynamically from API
         const response = await fetch(`${dashboardUrl}/api/blogs?slug=${slug}`);
         if (response.ok) {
           const data = await response.json();
           if (data && data.id) {
             setBlog(data);
-            setIsLoading(false);
-            return;
+          }
+        }
+        // Fetch all blogs for the sidebar
+        const responseAll = await fetch(`${dashboardUrl}/api/blogs`);
+        if (responseAll.ok) {
+          const dataAll = await responseAll.json();
+          if (Array.isArray(dataAll)) {
+            setBlogs(dataAll);
           }
         }
       } catch (err) {
-        console.warn("Could not load blog from API, trying fallback static data:", err);
-      }
-
-      // Fallback to static mock blogs
-      const staticBlog = fallbackBlogs.find((b) => b.slug === slug);
-      if (staticBlog) {
-        setBlog(staticBlog);
+        console.warn("Could not load blog from API:", err);
       }
       setIsLoading(false);
     }
-    loadBlog();
+    loadBlogAndBlogs();
   }, [slug]);
 
   if (isLoading) {
@@ -288,34 +289,36 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 </FadeIn>
 
                 {/* Similar Updates Widget */}
-                <FadeIn direction="left" delay={0.25}>
-                  <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/60 flex items-center gap-2">
-                      <Zap className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-                      <h4 className="text-[11.5px] font-bold text-slate-700 uppercase tracking-wider">Other Yojana & Updates</h4>
+                {blogs.filter((b) => b.slug !== blog.slug).length > 0 && (
+                  <FadeIn direction="left" delay={0.25}>
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                      <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/60 flex items-center gap-2">
+                        <Zap className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                        <h4 className="text-[11.5px] font-bold text-slate-700 uppercase tracking-wider">Other Yojana & Updates</h4>
+                      </div>
+                      <ul className="p-3 space-y-2">
+                        {blogs
+                          .filter((b) => b.slug !== blog.slug)
+                          .slice(0, 3)
+                          .map((b) => (
+                            <li key={b.id}>
+                              <Link
+                                href={`/blog/${b.slug}`}
+                                className="flex items-start gap-2.5 p-2 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50 transition-all duration-300"
+                              >
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-slate-400">
+                                  <FileText className="w-3.5 h-3.5" />
+                                </div>
+                                <span className="text-[11.5px] font-medium text-slate-600 hover:text-brand line-clamp-2 leading-snug">
+                                  {b.title}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
                     </div>
-                    <ul className="p-3 space-y-2">
-                      {fallbackBlogs
-                        .filter((b) => b.slug !== blog.slug)
-                        .slice(0, 3)
-                        .map((b) => (
-                          <li key={b.id}>
-                            <Link
-                              href={`/blog/${b.slug}`}
-                              className="flex items-start gap-2.5 p-2 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-50 transition-all duration-300"
-                            >
-                              <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-slate-400">
-                                <FileText className="w-3.5 h-3.5" />
-                              </div>
-                              <span className="text-[11.5px] font-medium text-slate-600 hover:text-brand line-clamp-2 leading-snug">
-                                {b.title}
-                              </span>
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                </FadeIn>
+                  </FadeIn>
+                )}
 
               </div>
             </div>

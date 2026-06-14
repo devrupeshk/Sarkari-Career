@@ -72,7 +72,7 @@ export function MainContentWithSidebar({
         meta: job.state ? job.state.toUpperCase().replace("-", " ") : "VARIOUS",
       }));
     }
-    return currentJobs;
+    return [];
   }, [initialJobs]);
 
   const mappedAdmitCards = useMemo(() => {
@@ -84,7 +84,7 @@ export function MainContentWithSidebar({
         meta: item.state ? item.state.toUpperCase().replace("-", " ") : "VARIOUS",
       }));
     }
-    return admitCards;
+    return [];
   }, [initialAdmitCards]);
 
   const mappedResults = useMemo(() => {
@@ -96,7 +96,7 @@ export function MainContentWithSidebar({
         meta: item.state ? item.state.toUpperCase().replace("-", " ") : "VARIOUS",
       }));
     }
-    return results;
+    return [];
   }, [initialResults]);
 
   const mappedAnswerKeys = useMemo(() => {
